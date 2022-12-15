@@ -1,37 +1,31 @@
-extends Area2D
+extends KinematicBody2D
 
+var speed = 100
+var gravity = 1200
+var velocity: Vector2
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-export var speed = 200
-var screen_size
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	screen_size = get_viewport_rect().size
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	var velocity = Vector2.ZERO
+func _physics_process(delta):
+	velocity = Vector2.ZERO
 	if Input.is_action_pressed("right"):
 		velocity.x += 1
 	if Input.is_action_pressed("left"):
 		velocity.x -= 1
+	if Input.is_action_pressed("action"):
+		$AnimationPlayer.play("kick")
+
+	velocity = velocity.normalized()
 	
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		$AnimatedSprite.play()
-	
-	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
-	
-	if velocity.x != 0:
-		$AnimatedSprite.animation = "walk"
-		$AnimatedSprite.flip_v = false
-		$AnimatedSprite.flip_h = velocity.x < 0
+	if velocity == Vector2.ZERO:
+		$AnimationPlayer.play("idle")
 	else:
-		$AnimatedSprite.play("idle")
+		if velocity.x > 0:
+			$AnimationPlayer.play("walk")
+		elif velocity.x < 0:
+			$Sprite.flip_h = true
+			$AnimationPlayer.play("walk")
+		if velocity.y < 0:
+			$AnimationPlayer.play("jump")
+		elif velocity.y > 0:
+			$AnimationPlayer.play("fall")
+		
+	move_and_slide(velocity * speed)
