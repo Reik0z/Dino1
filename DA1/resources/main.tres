@@ -1,0 +1,16 @@
+[gd_resource type="Theme" load_steps=4 format=2]
+
+[ext_resource path="res://resources/Abaddon Bold.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=6]
+size = 14
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 1 )
+
+[resource]
+Button/colors/font_color_hover = Color( 0.643137, 0.937255, 0.662745, 1 )
+Button/colors/font_color_pressed = Color( 0.486275, 0.92549, 0.513726, 1 )
+Button/fonts/font = SubResource( 6 )
+Label/fonts/font = SubResource( 5 )

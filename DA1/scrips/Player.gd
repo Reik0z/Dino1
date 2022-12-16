@@ -5,7 +5,8 @@ export (int) var gravity = 100
 var velocity =  Vector2()
 var jumping = false
 
-func get_input():
+
+func _physics_process(delta):
 	var right = Input.is_action_pressed("right")
 	var left = Input.is_action_pressed("left")
 	
@@ -14,8 +15,6 @@ func get_input():
 	if left:
 		velocity.x -= 1
 
-func _physics_process(delta):
-	get_input()
 	velocity.y += gravity * delta
 	velocity = velocity.normalized()
 	velocity.x *= 2
