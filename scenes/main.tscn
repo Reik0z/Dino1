@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://resources/Seasonal Tilesets/Seasonal Tilesets/1 - Grassland/Terrain (16 x 16).png" type="Texture" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
@@ -265,6 +265,9 @@
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 128, 15.5 )
 
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 10, 20.5 )
+
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 4 )
 
@@ -292,8 +295,17 @@ tile_data = PoolIntArray( 458752, 1, 0, 458753, 4, 0, 458754, 4, 0, 458755, 4, 0
 position = Vector2( 128, 128.5 )
 shape = SubResource( 2 )
 
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 10, 93 )
+shape = SubResource( 8 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 246, 92.5 )
+shape = SubResource( 8 )
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 128, 77 )
+scale = Vector2( 1.25, 1.25 )
 
 [node name="interface" type="Control" parent="."]
 script = ExtResource( 3 )
@@ -303,40 +315,9 @@ margin_right = 40.0
 margin_bottom = 40.0
 theme = SubResource( 6 )
 
-[node name="X" type="HBoxContainer" parent="interface/VBoxContainer"]
-margin_right = 40.0
-margin_bottom = 18.0
-
-[node name="x" type="Label" parent="interface/VBoxContainer/X"]
-margin_right = 18.0
-margin_bottom = 18.0
-theme = SubResource( 4 )
-text = "x :"
-
-[node name="posx" type="Label" parent="interface/VBoxContainer/X"]
-margin_left = 22.0
-margin_right = 22.0
-margin_bottom = 18.0
-
-[node name="Y" type="HBoxContainer" parent="interface/VBoxContainer"]
-margin_top = 22.0
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="y" type="Label" parent="interface/VBoxContainer/Y"]
-margin_right = 19.0
-margin_bottom = 18.0
-text = "Y :"
-
-[node name="posy" type="Label" parent="interface/VBoxContainer/Y"]
-margin_left = 23.0
-margin_right = 23.0
-margin_bottom = 18.0
-
 [node name="HBoxContainer" type="HBoxContainer" parent="interface/VBoxContainer"]
-margin_top = 44.0
 margin_right = 40.0
-margin_bottom = 62.0
+margin_bottom = 18.0
 
 [node name="fps" type="Label" parent="interface/VBoxContainer/HBoxContainer"]
 margin_right = 33.0
@@ -346,6 +327,37 @@ text = "FPS :"
 [node name="framespersecond" type="Label" parent="interface/VBoxContainer/HBoxContainer"]
 margin_left = 37.0
 margin_right = 37.0
+margin_bottom = 18.0
+
+[node name="X" type="HBoxContainer" parent="interface/VBoxContainer"]
+margin_top = 22.0
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="x" type="Label" parent="interface/VBoxContainer/X"]
+margin_right = 18.0
+margin_bottom = 18.0
+theme = SubResource( 4 )
+text = "X :"
+
+[node name="posx" type="Label" parent="interface/VBoxContainer/X"]
+margin_left = 22.0
+margin_right = 22.0
+margin_bottom = 18.0
+
+[node name="Y" type="HBoxContainer" parent="interface/VBoxContainer"]
+margin_top = 44.0
+margin_right = 40.0
+margin_bottom = 62.0
+
+[node name="y" type="Label" parent="interface/VBoxContainer/Y"]
+margin_right = 19.0
+margin_bottom = 18.0
+text = "Y :"
+
+[node name="posy" type="Label" parent="interface/VBoxContainer/Y"]
+margin_left = 23.0
+margin_right = 23.0
 margin_bottom = 18.0
 
 [node name="Button" type="Sprite" parent="interface/VBoxContainer"]
