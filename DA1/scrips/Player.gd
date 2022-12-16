@@ -1,21 +1,37 @@
 extends KinematicBody2D
 
-var speed = 100
-var gravity = 1200
-var velocity: Vector2
+export (int) var speed = 100
+export (int) var gravity = 100
+var velocity =  Vector2()
+var jumping = false
+
+func get_input():
+	var right = Input.is_action_pressed("right")
+	var left = Input.is_action_pressed("left")
+	
+	if right:
+		velocity.x += 1
+	if left:
+		velocity.x -= 1
 
 func _physics_process(delta):
-	velocity = Vector2.ZERO
-	if Input.is_action_pressed("right"):
-		velocity.x += 1
-	if Input.is_action_pressed("left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("action"):
-		$AnimationPlayer.play("kick")
-
+	get_input()
+	velocity.y += gravity * delta
 	velocity = velocity.normalized()
+	velocity.x *= 2
 	
-	if velocity == Vector2.ZERO:
+	var jump = Input.is_action_just_pressed("jump")
+	
+	if jump and is_on_floor():
+		velocity.y = -10
+		$AnimationPlayer.play("jump")
+	
+	if jumping and is_on_floor():
+		jumping = false
+	
+	move_and_slide(velocity * speed, Vector2(0,-1))
+	
+	if abs(velocity.x) < 0.05:
 		$AnimationPlayer.play("idle")
 	else:
 		if velocity.x > 0:
@@ -23,9 +39,3 @@ func _physics_process(delta):
 		elif velocity.x < 0:
 			$Sprite.flip_h = true
 			$AnimationPlayer.play("walk")
-		if velocity.y < 0:
-			$AnimationPlayer.play("jump")
-		elif velocity.y > 0:
-			$AnimationPlayer.play("fall")
-		
-	move_and_slide(velocity * speed)
