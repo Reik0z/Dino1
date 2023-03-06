@@ -1,18 +1,16 @@
 extends Control
 
-onready var player = get_parent().get_node("Player")
+@onready var player = get_parent().get_node("Player")
 
 
-func _process(delta):
-	$VBoxContainer/X/posx.text = player.velocity.x as String
-	$VBoxContainer/Y/posy.text = player.velocity.y as String
-	
-	$VBoxContainer/HBoxContainer/framespersecond.text = Engine.get_frames_per_second() as String
+func _process(_delta):
+	$VBoxContainer/X/posx.text = str(player.velocity.x)
+	$VBoxContainer/Y/posy.text = str(player.velocity.y)
 	
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
-	var up = Input.is_action_pressed("up")
-	var down = Input.is_action_pressed("down")
+	var _up = Input.is_action_pressed("up")
+	var _down = Input.is_action_pressed("down")
 	var A = Input.is_action_pressed("jump")
 	var X = Input.is_action_pressed("action")
 	

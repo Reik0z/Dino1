@@ -1,45 +1,51 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export (int) var SPEED = 100
-export (int) var GRAVITY = 30
-export (int) var JUMP_IMPULSE = 4
-export (int) var WALK_SPEED = 2
-var velocity =  Vector2()
+@export var SPEED : int = 100
+@export var GRAVITY : int = 30
+@export var JUMP_IMPULSE : float = 4.5
+@export var WALK_SPEED : int = 2
+var vel =  Vector2()
 var jumping = false
 
 
 func _physics_process(delta):
-	var right = Input.is_action_pressed("right")
-	var left = Input.is_action_pressed("left")
-	var jump = Input.is_action_just_pressed("jump")
+	var _right = Input.is_action_pressed("right")
+	var _left = Input.is_action_pressed("left")
+	var _jump = Input.is_action_just_pressed("jump")
 	
-	velocity.y += GRAVITY * delta
+	vel.y += GRAVITY * delta
 	
-	if right:
-		velocity.x = WALK_SPEED
-	elif left:
-		velocity.x = -WALK_SPEED
+	if _right:
+		vel.x = WALK_SPEED
+	elif _left:
+		vel.x = -WALK_SPEED
 	else:
-		velocity.x = 0
+		vel.x = 0
 
 	if is_on_floor():
-		velocity.y = 0
+		vel.y = 0
 	
-	if jump and is_on_floor():
-		velocity.y = -JUMP_IMPULSE
+	if _jump and is_on_floor():
+		vel.y = -JUMP_IMPULSE
 		$AnimationPlayer.play("jump")
 	
 	if jumping and is_on_floor():
 		jumping = false
 	
-	move_and_slide(velocity * SPEED, Vector2(0,-1))
+	set_velocity(vel * SPEED)
+	set_up_direction(Vector2(0,-1))
+	move_and_slide()
 	
-	if abs(velocity.x) < 0.1:
+	if abs(vel.x) < 0.1:
 		$AnimationPlayer.play("idle")
 	else:
-		if velocity.x > 0:
-			$Sprite.scale.x = 1
+		if vel.x > 0:
+			$Sprite2D.scale.x = 1
 			$AnimationPlayer.play("walk")
-		elif velocity.x < 0:
-			$Sprite.scale.x = -1
+		elif vel.x < 0:
+			$Sprite2D.scale.x = -1
 			$AnimationPlayer.play("walk")
+
+func _input(event):
+	if event.is_action_pressed("exit"):
+		get_tree().quit()
